@@ -1,0 +1,70 @@
+<mat-card style="margin-left: 10%; margin-right: 10%; margin-top: 5%;">
+  <h4 style="text-align:center">General Form</h4>
+  <form >
+    <div class="row sm-6 md-12" style="margin-left:10%;">
+      <mat-form-field style="margin-left: 10%;">
+        <input matInput placeholder="First Name" [(ngModel)]="firstName" name="firstname">
+      </mat-form-field>
+
+      <mat-form-field style="margin-left: 10%;">
+        <input matInput placeholder="Last Name" [(ngModel)]="lastName" name="lastname">
+      </mat-form-field>
+    </div>
+
+    <div class="row  sm-6 md-12" style="margin-left: 20%;">
+      <mat-radio-group aria-label="Select an option" name="gender" [(ngModel)]="gender">
+        <label>Select Gender:</label>
+        <mat-radio-button  value="Male">Male</mat-radio-button>
+        <mat-radio-button value="Female">Female</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="row sm-6 md-12" style="margin-left: 20%;">
+      <mat-form-field *ngIf="!enableAutocomplete">
+        <mat-label>Select Office</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let office of offices" [value]="office.name">
+            {{office.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="enableAutocomplete">
+        <input type="text" placeholder="Select Office" aria-label="Assignee" matInput [formControl]="myControl"
+          [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let office of filteredOptions | async" [value]="office.name">
+            {{office.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-slide-toggle name="active" [(ngModel)]="enableAutocomplete" (change)="toEnableAutocomplete()">Autocomplete?
+      </mat-slide-toggle>
+    </div>
+
+
+
+    <div class="row sm-6 md-12" style="margin-left: 20%;">
+      <label>How many miles can you run? : {{numberOfMiles}}</label> 
+      <mat-slider min="0" max="100" step="5" [(ngModel)]="numberOfMiles" name="miles"></mat-slider>
+    </div>
+
+    <div class="row sm-6 md-12" style="margin-left: 20%;">
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Date Of Birth">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+  </form>
+
+  <h5>List:</h5> 
+
+<mat-list role="list" >
+    <mat-list-item role="listitem">First Name: {{firstName}}</mat-list-item>
+    <mat-list-item role="listitem">Last Name: {{lastName}}</mat-list-item>
+    <mat-list-item role="listitem">Gender: {{gender}}</mat-list-item>
+  </mat-list>
+</mat-card>
